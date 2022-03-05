@@ -1,4 +1,4 @@
-baseURL = ""
+baseURL = "https://www.yashhacksstuff.tech/"
 # [en, zh-cn, fr, ...] determines default content language
 defaultContentLanguage = "en"
 # language code
