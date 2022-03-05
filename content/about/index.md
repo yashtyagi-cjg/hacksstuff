@@ -11,4 +11,4 @@ I was addicted to hacking, more for the intellectual   challenge, the curiosity,
 {{</admonition>}}
 
 #### Want to know more about me?
-Head over to [<i class='fab fa-linkedin fa-fw'></i>Linkedin](https://linkedin.com/in/ybtyagi) to checkout my certifications and skills.
+Head over to <i class='fab fa-linkedin fa-fw'></i> [Linkedin](https://linkedin.com/in/ybtyagi) to checkout my certifications and skills.
