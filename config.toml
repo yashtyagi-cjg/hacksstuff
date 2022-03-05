@@ -477,7 +477,7 @@ defaultTheme = "auto"
         pre = "<i class='fab fa-github fa-fw'></i>"
         post = ""
         name = ""
-        url = "https://github.com/yashtyagi-cjg/"
+        url = https://github.com/yashtyagi-cjg/
         title = "GitHub"
         weight = 5
  
