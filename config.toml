@@ -73,7 +73,7 @@ theme = "LoveIt"
           disclaimer = ""
         # Home page posts
         [params.home.posts]
-          enable = false
+          enable = true
           # special amount of posts in each home posts page
           paginate = 6
       # Social config in home page
@@ -477,7 +477,7 @@ defaultTheme = "auto"
         pre = "<i class='fab fa-github fa-fw'></i>"
         post = ""
         name = ""
-        url = "https://github.com/yashtyagi-cjg/"
+        url = "https://github.com/yashtyagi-cjg"
         title = "GitHub"
         weight = 5
  
