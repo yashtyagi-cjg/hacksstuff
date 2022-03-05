@@ -474,7 +474,7 @@ defaultTheme = "auto"
         weight = 4
   [[menu.main]]
         identifier = "github"
-        pre = "<a href="https://github.com/yashtyagi-cjg"><i class='fab fa-github fa-fw'></i></a>"
+        pre = "<a href='https://github.com/yashtyagi-cjg'><i class='fab fa-github fa-fw'></i></a>"
         post = ""
         name = ""
         url = ""
