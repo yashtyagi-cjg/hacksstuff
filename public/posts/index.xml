@@ -1,0 +1,19 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>All Posts - Yash hacks stuff</title>
+        <link>https://yashtyagi-cjg.github.io/hacksstuff/posts/</link>
+        <description>All Posts | Yash hacks stuff</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ybtyagi@gmail.com (Yash)</managingEditor>
+            <webMaster>ybtyagi@gmail.com (Yash)</webMaster><lastBuildDate>Fri, 04 Feb 2022 22:14:31 &#43;0530</lastBuildDate><atom:link href="https://yashtyagi-cjg.github.io/hacksstuff/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>HTB Horizontall Writeup</title>
+    <link>https://yashtyagi-cjg.github.io/hacksstuff/firstpost/</link>
+    <pubDate>Fri, 04 Feb 2022 22:14:31 &#43;0530</pubDate>
+    <author>Author</author>
+    <guid>https://yashtyagi-cjg.github.io/hacksstuff/firstpost/</guid>
+    <description><![CDATA[Horizontall   Process   Carried out an nmap scan found two ports open
+ 22/tcp open ssh 80/tcp open http    The ssh version was not vulnerable.
+  The webpage at horizontal.htb was static and no actionable/useful OSINT was present
+  Directory enumeration carried out using two wordlists
+ dirb/common.txt dirbuster/subdirectory-list-2.3-medium.txt No interesting subdirectories.    Subsequently vhost enumeration was carried out.]]></description>
+</item></channel>
+</rss>

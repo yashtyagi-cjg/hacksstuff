@@ -4,9 +4,6 @@ date: 2022-02-04T22:14:31+05:30
 tags: ['Easy', 'Linux', 'Retired']
 categories: ['Linux Easy']
 
-resources:
-- name: "horizontall"
-  src: "horizontall.jpeg"
 
 draft: false
 ---
