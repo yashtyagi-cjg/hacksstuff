@@ -1,4 +1,4 @@
-baseURL = ""
+baseURL = "https://www.yashhacksstuff.tech/"
 # [en, zh-cn, fr, ...] determines default content language
 defaultContentLanguage = "en"
 # language code
@@ -474,10 +474,10 @@ defaultTheme = "auto"
         weight = 4
   [[menu.main]]
         identifier = "github"
-        pre = "<i class='fab fa-github fa-fw'></i>"
+        pre = "<a href='https://github.com/yashtyagi-cjg'><i class='fab fa-github fa-fw'></i></a>"
         post = ""
         name = ""
-        url = "https://github.com/yashtyagi-cjg/"
+        url = ""
         title = "GitHub"
         weight = 5
  
