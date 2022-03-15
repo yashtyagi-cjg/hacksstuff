@@ -1,15 +1,27 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Linux - Tag - Yash hacks stuff</title>
-        <link>https://yashtyagi-cjg.github.io/hacksstuff/tags/linux/</link>
+        <link>https://www.yashhacksstuff.tech/tags/linux/</link>
         <description>Linux - Tag - Yash hacks stuff</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ybtyagi@gmail.com (Yash)</managingEditor>
-            <webMaster>ybtyagi@gmail.com (Yash)</webMaster><lastBuildDate>Fri, 04 Feb 2022 22:14:31 &#43;0530</lastBuildDate><atom:link href="https://yashtyagi-cjg.github.io/hacksstuff/tags/linux/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>ybtyagi@gmail.com (Yash)</webMaster><lastBuildDate>Mon, 07 Mar 2022 12:32:16 &#43;0530</lastBuildDate><atom:link href="https://www.yashhacksstuff.tech/tags/linux/" rel="self" type="application/rss+xml" /><item>
+    <title>HTB Routerspace Writeup</title>
+    <link>https://www.yashhacksstuff.tech/routerspace/</link>
+    <pubDate>Mon, 07 Mar 2022 12:32:16 &#43;0530</pubDate>
+    <author>Author</author>
+    <guid>https://www.yashhacksstuff.tech/routerspace/</guid>
+    <description><![CDATA[RouterSpace HTB   Process   Added routerspace.htb to /etc/hosts using sudo echo '&lt;ip&gt; routerspace.htb' &gt;&gt; /etc/hosts
+  Nmap
+ Found two tcp open ports and no udp ports 22/tcp open ssh 80/tcp open http    DirEnumeration
+ ffuf and gobuster scan carried out on routerspace.htb =&gt; No useful dir founds    VhostEnumeration
+ No useful subdomains found    http://routerspace.htb
+ No actionable OSINT found Found a hyperlink to an apk =&gt; routerspace.]]></description>
+</item><item>
     <title>HTB Horizontall Writeup</title>
-    <link>https://yashtyagi-cjg.github.io/hacksstuff/firstpost/</link>
+    <link>https://www.yashhacksstuff.tech/firstpost/</link>
     <pubDate>Fri, 04 Feb 2022 22:14:31 &#43;0530</pubDate>
     <author>Author</author>
-    <guid>https://yashtyagi-cjg.github.io/hacksstuff/firstpost/</guid>
+    <guid>https://www.yashhacksstuff.tech/firstpost/</guid>
     <description><![CDATA[Horizontall   Process   Carried out an nmap scan found two ports open
  22/tcp open ssh 80/tcp open http    The ssh version was not vulnerable.
   The webpage at horizontal.htb was static and no actionable/useful OSINT was present

@@ -395,7 +395,7 @@ linpeas.sh                                    100%  746KB  36.8KB/s   00:20
 ```
 
 ### Executing Linpeas.sh
-{{<figure src="/images/routerspace/priv_esc.png" title="Vulnerable Sudo version">}}
+{{<figure src="/images/routerspace/priv_esc1.png" title="Vulnerable Sudo version">}}
 
 #### Sudo version exploit
 
