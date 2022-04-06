@@ -1,6 +1,6 @@
 ---
 title: "HTB Traceback Writeup"
-date: 2022-03-24T09:22:50+05:30
+date: 2022-03-17T09:22:50+05:30
 tags: ['Easy', 'Linux', 'Retired','Interesting Enumeration']
 categories: ['Linux Easy']
 draft: false

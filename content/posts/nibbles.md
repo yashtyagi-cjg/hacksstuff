@@ -1,9 +1,9 @@
 ---
 title: "HTB Nibbles Writeup"
-date: 2022-03-27T10:08:01+05:30
+date: 2022-03-20T10:08:01+05:30
 tags: ['Easy', 'Linux', 'Retired','Interesting Privilege Escalation']
 categories: ['Linux Easy']
-draft: true
+draft: false
 ---
 
 # Process
